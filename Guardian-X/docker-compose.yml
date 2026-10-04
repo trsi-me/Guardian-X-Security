@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # السيرفر المركزي
+  guardian-server:
+    build: .
+    container_name: guardian-x-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server/models:/app/server/models
+      - ./server/guardian.db:/app/server/guardian.db
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped
+
+  # وكيل الحافة (Edge Agent) - اختياري
+  guardian-agent:
+    build: .
+    container_name: guardian-x-agent
+    command: python agent/edge_agent.py --server http://guardian-server:5000 --user docker-agent
+    depends_on:
+      - guardian-server
+    restart: unless-stopped

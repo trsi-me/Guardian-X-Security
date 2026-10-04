@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardian-X | Security Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="/assets/images/guardianx_no_bg.png" alt="Guardian-X" class="logo-img">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-section="events">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <span>Events</span>
+                </a>
+                <a href="#" class="nav-item" data-section="health">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    <span>System Health</span>
+                </a>
+                <a href="#" class="nav-item" data-section="reports">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                    <span>Reports</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="status-indicator" id="systemStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Checking...</span>
+                </div>
+                <p class="sidebar-version">v1.0</p>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 class="page-heading" id="pageHeading">Dashboard</h1>
+                    <p class="page-desc" id="pageDesc">Monitor and detect anomalous file activity</p>
+                </div>
+                <div class="top-bar-right">
+                    <button class="icon-btn" id="btnRefresh" title="Refresh data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    </button>
+                    <button class="icon-btn" title="Notifications">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    </button>
+                    <div class="last-update" id="lastUpdate">—</div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <section id="section-dashboard" class="page-section active">
+                    <div class="stats-row">
+                        <div class="stat-card stat-high">
+                            <div class="stat-icon-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            </div>
+                            <div class="stat-body">
+                                <span class="stat-value" id="highRiskCount">0</span>
+                                <span class="stat-label">High Risk</span>
+                                <span class="stat-hint">Last 24h</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-suspicious">
+                            <div class="stat-icon-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            </div>
+                            <div class="stat-body">
+                                <span class="stat-value" id="suspiciousCount">0</span>
+                                <span class="stat-label">Suspicious</span>
+                                <span class="stat-hint">Last 24h</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-alerts">
+                            <div class="stat-icon-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                            </div>
+                            <div class="stat-body">
+                                <span class="stat-value" id="alertsCount">0</span>
+                                <span class="stat-label">Active Alerts</span>
+                                <span class="stat-hint">Total</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-events">
+                            <div class="stat-icon-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            </div>
+                            <div class="stat-body">
+                                <span class="stat-value" id="totalEvents">0</span>
+                                <span class="stat-label">Total Events</span>
+                                <span class="stat-hint">All time</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-agents">
+                            <div class="stat-icon-wrap">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </div>
+                            <div class="stat-body">
+                                <span class="stat-value" id="activeAgents">0</span>
+                                <span class="stat-label">Edge Agents</span>
+                                <span class="stat-hint">Simulated</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card card-events">
+                            <div class="card-header">
+                                <h3>File Activity Log</h3>
+                                <span class="card-badge">Live</span>
+                            </div>
+                            <div class="card-body scrollable" id="eventsList">
+                                <div class="skeleton-list"><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div></div>
+                            </div>
+                        </div>
+                        <div class="card card-alerts">
+                            <div class="card-header">
+                                <h3>Live Alerts</h3>
+                                <span class="card-badge alert">Critical</span>
+                            </div>
+                            <div class="card-body scrollable" id="alertsList">
+                                <div class="skeleton-list"><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-simulate">
+                        <div class="card-header">
+                            <h3>Simulate File Event</h3>
+                            <span class="card-subtitle">Test the detection system (Rules + ML Ensemble)</span>
+                        </div>
+                        <div class="card-body">
+                            <form class="simulate-form" id="simulateForm">
+                                <div class="form-row">
+                                    <label for="simUser">User</label>
+                                    <input type="text" id="simUser" value="user01" required placeholder="e.g. user01">
+                                </div>
+                                <div class="form-row">
+                                    <label for="simActivity">Activity Type</label>
+                                    <select id="simActivity">
+                                        <option value="Create">Create</option>
+                                        <option value="Read">Read</option>
+                                        <option value="Modify">Modify</option>
+                                        <option value="Delete">Delete</option>
+                                        <option value="FileDownload">FileDownload</option>
+                                        <option value="Transaction">Transaction</option>
+                                    </select>
+                                </div>
+                                <div class="form-row form-row-flex" id="formRowFilePath">
+                                    <label for="simFilePath">File Path</label>
+                                    <input type="text" id="simFilePath" placeholder="C:\data\sensitive\file.txt" required>
+                                </div>
+                                <div class="form-row form-row-flex form-row-hidden" id="formRowTransaction">
+                                    <label for="simAmount">Amount</label>
+                                    <input type="number" id="simAmount" placeholder="5000" min="1" value="5000">
+                                    <label for="simTxType">Type</label>
+                                    <select id="simTxType">
+                                        <option value="transfer">Transfer</option>
+                                        <option value="withdrawal">Withdrawal</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn-primary" id="btnSimulate">
+                                    <span class="btn-text">Send Event</span>
+                                </button>
+                            </form>
+                            <div class="simulate-actions">
+                                <button type="button" class="btn-secondary" id="btnBatchSimulate" title="Simulate 5 random events">
+                                    Batch Simulate (5)
+                                </button>
+                                <button type="button" class="btn-secondary" id="btnSimulateAgent" title="Register simulated edge agent">
+                                    Simulate Agent
+                                </button>
+                                <button type="button" class="btn-secondary" id="btnTrainML" title="Train Isolation Forest, LightGBM, Autoencoder">
+                                    Train ML Models
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-events" class="page-section">
+                    <div class="card card-full">
+                        <div class="card-header card-header-row">
+                            <div>
+                                <h3>All Events</h3>
+                                <span class="card-subtitle">Recorded file activities</span>
+                            </div>
+                            <div class="events-filters">
+                                <select id="filterRisk" class="filter-select">
+                                    <option value="">All risk levels</option>
+                                    <option value="High Risk">High Risk</option>
+                                    <option value="Suspicious">Suspicious</option>
+                                    <option value="Normal">Normal</option>
+                                </select>
+                                <input type="text" id="filterSearch" class="filter-search" placeholder="Search user or path...">
+                            </div>
+                        </div>
+                        <div class="card-body scrollable scrollable-lg" id="eventsListFull">
+                            <div class="skeleton-list"><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-health" class="page-section">
+                    <div class="health-cards">
+                        <div class="card health-card">
+                            <div class="card-header">
+                                <h3>Server Status</h3>
+                                <span class="health-badge" id="serverStatus">—</span>
+                            </div>
+                            <div class="card-body">
+                                <p id="serverDetail" class="health-detail">Checking...</p>
+                            </div>
+                        </div>
+                        <div class="card health-card">
+                            <div class="card-header">
+                                <h3>Database</h3>
+                                <span class="health-badge" id="dbStatus">—</span>
+                            </div>
+                            <div class="card-body">
+                                <p id="dbDetail" class="health-detail">Checking...</p>
+                            </div>
+                        </div>
+                        <div class="card health-card">
+                            <div class="card-header">
+                                <h3>ML Models</h3>
+                                <span class="health-badge" id="mlStatus">—</span>
+                            </div>
+                            <div class="card-body">
+                                <p id="mlDetail" class="health-detail">Isolation Forest, LightGBM, Autoencoder</p>
+                            </div>
+                        </div>
+                        <div class="card health-card card-full-width">
+                            <div class="card-header">
+                                <h3>Simulated Edge Agents</h3>
+                                <span class="card-subtitle">Simulated edge agents — no hardware required</span>
+                            </div>
+                            <div class="card-body scrollable" id="agentsList" style="max-height: 150px;">
+                                <div class="empty-state"><p class="empty-state-text">No agents registered. Use "Simulate Agent" on Dashboard.</p></div>
+                            </div>
+                        </div>
+                        <div class="card health-card card-full-width">
+                            <div class="card-header">
+                                <h3>Containment Actions (Simulated)</h3>
+                                <span class="card-subtitle">FR-12: Automated response logging</span>
+                            </div>
+                            <div class="card-body scrollable" id="containmentList" style="max-height: 200px;">
+                                <div class="empty-state"><p class="empty-state-text">No containment actions yet</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-reports" class="page-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Statistics Summary</h3>
+                            <span class="card-subtitle">Latest metrics</span>
+                        </div>
+                        <div class="card-body reports-grid" id="reportsBody">
+                            <div class="skeleton-list"><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div><div class="skeleton-item"></div></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- XAI Explanation Modal -->
+    <div id="explainModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Explainable AI Report (SHAP / LIME)</h3>
+                <button type="button" class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="explainModalBody">
+                <p class="loading">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
